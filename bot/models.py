@@ -1,9 +1,28 @@
 from django.db import models
+from django.contrib import messages
+#from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
+
+
+# def validate_file_extension(value):
+#     if not value.name.endswith('.json'):
+#         raise ValidationError('Разрешены только JSON файлы.')
 
 
 class Project(models.Model):
     title = models.CharField('Название', max_length=50)
     start_day = models.DateField('День начала проекта')
+    pm_file = models.FileField(
+        upload_to='uploads/',
+        validators=[FileExtensionValidator(allowed_extensions=['json'])],
+        null=True
+    )
+    students_file = models.FileField(
+        upload_to='uploads/',
+        validators=[FileExtensionValidator(allowed_extensions=['json'])],
+        null=True,
+        blank=True
+    )
     #стадия проекта: объявлен, сообщения разосланны, уточнения разосланы, команды сформированы, запущен, закончен
     #teams
 
@@ -13,6 +32,17 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class VacantTime(models.Model):
+    call_start = models.TimeField('Начало созвона')
+    vacant_pos_num = models.PositiveIntegerField('Кол-во свободных мест')
+    applicants_num = models.PositiveIntegerField('Кол-во претендентов')
+    project = models.ForeignKey(
+        Project,
+        verbose_name='Проект',
+        on_delete=models.CASCADE
+    )
 
 
 class Team(models.Model):

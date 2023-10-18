@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from environs import Env
+from datetime import timedelta
 
 env = Env()
 env.read_env()
@@ -31,6 +32,7 @@ DEBUG = env.bool('DEBUG', False)
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', [])
 
+CALL_DURATION = timedelta(minutes=env.int('CALL_DURATION', 30))
 
 # Application definition
 

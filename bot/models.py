@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib import messages
 #from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
+from bot.utils import get_end_time
 
 
 # def validate_file_extension(value):
@@ -43,6 +44,14 @@ class VacantTime(models.Model):
         verbose_name='Проект',
         on_delete=models.CASCADE
     )
+
+    class Meta:
+        verbose_name = 'Вакантный промежуток времени'
+        verbose_name_plural = 'Вакантные промежутки времени'
+
+    def __str__(self):
+        return f'{self.call_start.strftime("%H:%M")} - ' \
+               f'{get_end_time(self.call_start).strftime("%H:%M")}'
 
 
 class Team(models.Model):

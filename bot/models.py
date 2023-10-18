@@ -37,8 +37,15 @@ class Project(models.Model):
 
 class VacantTime(models.Model):
     call_start = models.TimeField('Начало созвона')
-    vacant_pos_num = models.PositiveIntegerField('Кол-во свободных мест')
-    applicants_num = models.PositiveIntegerField('Кол-во претендентов')
+    #vacant_pos_num = models.PositiveIntegerField('Кол-во свободных мест')
+    #students
+    #applicants_num = models.PositiveIntegerField('Кол-во претендентов')
+    pms = models.ManyToManyField(
+        'self',
+        verbose_name='Руководители проектов',
+        related_name='call_times',
+        blank=True
+    )
     project = models.ForeignKey(
         Project,
         verbose_name='Проект',
@@ -95,8 +102,10 @@ class Member(models.Model):
     id_telegram = models.CharField('Телеграм id', max_length=20)
     name = models.CharField('Имя', max_length=30)
     nickname = models.CharField('Ник в телеграме', max_length=30, null=True)
-    time_from = models.TimeField('Время от', null=True, blank=True)
-    time_to = models.TimeField('Время до', null=True, blank=True)
+    is_active = models.BooleanField(
+        'Активный',
+        default=False
+    )
     good_partners = models.ManyToManyField(
         'self',
         verbose_name='Рекомендуемые напарники',
@@ -131,7 +140,7 @@ class StudyLevel(models.Model):
 
 
 class Student(Member):
-    level = curr_team = models.ForeignKey(
+    level = models.ForeignKey(
         StudyLevel,
         verbose_name='Уровень',
         on_delete=models.PROTECT,
@@ -146,7 +155,15 @@ class Student(Member):
         null=True,
         blank=True
     )
-    #teams - все команды, в которых был
+    call_time = models.ForeignKey(
+        VacantTime,
+        verbose_name='Желаемое время созвона',
+        on_delete=models.SET_NULL,
+        related_name='students',
+        null=True,
+        blank=True
+    )
+    ##teams - все команды, в которых был (отсутствует)
 
     class Meta:
         verbose_name = 'Ученик'
@@ -157,7 +174,10 @@ class Student(Member):
 
 
 class ProjectManager(Member):
+    time_from = models.TimeField('Время от', null=True, blank=True)
+    time_to = models.TimeField('Время до', null=True, blank=True)
     #curr_teams
+    #call_times
 
     class Meta:
         verbose_name = 'Руководитель проектов'

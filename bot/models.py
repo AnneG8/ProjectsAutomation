@@ -14,12 +14,12 @@ class Project(models.Model):
     title = models.CharField('Название', max_length=50)
     start_day = models.DateField('День начала проекта')
     pm_file = models.FileField(
-        upload_to='uploads/',
+        upload_to='pms/',
         validators=[FileExtensionValidator(allowed_extensions=['json'])],
         null=True
     )
     students_file = models.FileField(
-        upload_to='uploads/',
+        upload_to='students/',
         validators=[FileExtensionValidator(allowed_extensions=['json'])],
         null=True,
         blank=True
@@ -41,7 +41,7 @@ class VacantTime(models.Model):
     #students
     #applicants_num = models.PositiveIntegerField('Кол-во претендентов')
     pms = models.ManyToManyField(
-        'self',
+        'ProjectManager',
         verbose_name='Руководители проектов',
         related_name='call_times',
         blank=True

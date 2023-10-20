@@ -147,6 +147,7 @@ class Student(Member):
         related_name='students',
         default=1
     )
+    chosen_time = models.TimeField('Выбранное время', null=True, blank=True)
     curr_team = models.ForeignKey(
         Team,
         verbose_name='Текущая команда',

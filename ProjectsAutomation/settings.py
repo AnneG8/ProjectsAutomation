@@ -125,10 +125,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    str(Path(BASE_DIR, 'static'))
+    str(Path(BASE_DIR, 'bot', 'static'))
 ]
 
-STATIC_ROOT = f'{BASE_DIR}/assets/'
+STATIC_ROOT = f'{BASE_DIR}/static/'
 
 MEDIA_URL = '/media/'
 

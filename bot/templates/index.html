@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <title>Стартовая страница</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'index.css' %}">  
+</head>
+<body>
+    <div class="container">
+        {% if message %}
+            <div class="message">{{ message }}</div>
+        {% endif %}
+        <h1>Запросить изменение времени?</h1>
+        <form action="{% url 'choose_students' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Запросить</button>
+        </form>
+    </div>
+</body>
+</html>

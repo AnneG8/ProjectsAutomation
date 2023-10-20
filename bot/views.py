@@ -22,8 +22,6 @@ def choose_students(request):
 
 def send_message(request):
     if request.method == 'POST':
-        # for key, value in request.POST.items():
-        #     print(f'Ключ: {key}, Значение: {value}')
         selected_time = request.POST.get('time')
         selected_users = request.POST.getlist('students')
         print('Вывод: ', selected_time, selected_users)

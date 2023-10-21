@@ -36,6 +36,8 @@ CALL_DURATION = timedelta(minutes=env.int('CALL_DURATION', 30))
 
 ADMIN_TG_CHAT_ID = env.str('ADMIN_TG_CHAT_ID')
 
+TG_BOT_TOKEN = env.str('TG_BOT_TOKEN')
+
 # Application definition
 
 INSTALLED_APPS = [

@@ -31,7 +31,7 @@ class Project(models.Model):
 
 
 class VacantTime(models.Model):
-    call_start = models.TimeField('Начало созвона')
+    call_start = models.TimeField('Начало созвона', unique=True)
     #vacant_pos_num = models.PositiveIntegerField('Кол-во свободных мест')
     #students
     #applicants_num = models.PositiveIntegerField('Кол-во претендентов')
@@ -54,6 +54,9 @@ class VacantTime(models.Model):
     def __str__(self):
         return f'{self.call_start.strftime("%H:%M")} - ' \
                f'{get_end_time(self.call_start).strftime("%H:%M")}'
+
+    def available_pms(self):
+        return self.pms.exclude(curr_teams__call_start=self.call_start)
 
 
 class Team(models.Model):

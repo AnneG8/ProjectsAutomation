@@ -11,7 +11,8 @@ def index(request):
 
 def choose_students(request):
     students = Student.objects.filter(is_active=True)
-    times = [time.strftime("%H:%M") for time in proposed_times()]
+    pms = ProjectManager.objects.filter(is_active=True)
+    times = [time.strftime("%H:%M") for time in proposed_times(pms)]
     # students = ['Вася', 'Петя', 'Маша']
     # times = ['18:00', '18:30', '19:00', '19:30']
     return render(request, 'choose_students.html', context={

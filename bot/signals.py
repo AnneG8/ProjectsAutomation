@@ -50,7 +50,6 @@ def student_parsing(student):
         return
     
 
-
 @receiver(post_save, sender=Project)
 def parse_project_files(sender, instance, **kwargs):
     print("parse_project_files запустился")
@@ -69,4 +68,4 @@ def parse_project_files(sender, instance, **kwargs):
                     student_parsing(student)
 
         # удалять распарсенные файлы?
-        choose_time_calling()
+        choose_time_calling(instance)

@@ -4,7 +4,7 @@ from bot.utils import get_end_time
 
 def proposed_times():
     proposed_times = []
-    for pm in ProjectManager.objects.all():
+    for pm in ProjectManager.objects.filter(is_active=True):
         possible_time = pm.time_from
         while possible_time <= pm.time_to:
             if possible_time not in proposed_times:

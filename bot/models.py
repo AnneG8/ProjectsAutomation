@@ -5,11 +5,6 @@ from django.core.validators import FileExtensionValidator
 from bot.utils import get_end_time
 
 
-# def validate_file_extension(value):
-#     if not value.name.endswith('.json'):
-#         raise ValidationError('Разрешены только JSON файлы.')
-
-
 class Project(models.Model):
     title = models.CharField('Название', max_length=50)
     start_day = models.DateField('День начала проекта')
@@ -101,7 +96,12 @@ class Team(models.Model):
 class Member(models.Model):
     id_telegram = models.CharField('Телеграм id', max_length=20)
     name = models.CharField('Имя', max_length=30)
-    nickname = models.CharField('Ник в телеграме', max_length=30, null=True)
+    nickname = models.CharField(
+        'Ник в телеграме',
+        max_length=30,
+        null=True,
+        blank=True
+    )
     is_active = models.BooleanField(
         'Активный',
         default=False
@@ -147,7 +147,7 @@ class Student(Member):
         related_name='students',
         default=1
     )
-    chosen_time = models.TimeField('Выбранное время', null=True, blank=True)
+    chosen_time = models.TimeField('Желаемое время созвона', null=True, blank=True)
     curr_team = models.ForeignKey(
         Team,
         verbose_name='Текущая команда',
@@ -158,7 +158,7 @@ class Student(Member):
     )
     call_time = models.ForeignKey(
         VacantTime,
-        verbose_name='Желаемое время созвона',
+        verbose_name='Выбранное время',
         on_delete=models.SET_NULL,
         related_name='students',
         null=True,

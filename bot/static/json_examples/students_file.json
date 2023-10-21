@@ -1,0 +1,17 @@
+[
+    {
+        "id_telegram": "444444444",
+        "name": "Ученик 1",
+        "level_id": 1
+    },
+    {
+        "id_telegram": "555555555",
+        "name": "Ученик 2",
+        "level_id": 1
+    },
+    {
+        "id_telegram": "666666666",
+        "name": "Ученик 3",
+        "level_id": 1
+    }
+]

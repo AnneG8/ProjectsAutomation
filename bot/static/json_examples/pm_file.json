@@ -1,0 +1,20 @@
+[
+    {
+        "id_telegram": "111111111",
+        "name": "ПМ 1",
+        "time_from": "18:00",
+        "time_to": "19:30"
+    },
+    {
+        "id_telegram": "222222222",
+        "name": "ПМ 2",
+        "time_from": "21:00",
+        "time_to": "22:00"
+    },
+    {
+        "id_telegram": "333333333",
+        "name": "ПМ 3",
+        "time_from": "19:00",
+        "time_to": "20:00"
+    }
+]

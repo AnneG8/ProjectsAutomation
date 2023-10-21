@@ -2,7 +2,7 @@ import json
 from django.db.models.signals import post_save
 from django.shortcuts import get_object_or_404
 from django.dispatch import receiver
-from datetime.datetime import strptime
+from datetime import datetime
 
 from bot.models import Project, ProjectManager, Student, StudyLevel
 from bot.management.commands.bot import choose_time_calling
@@ -12,10 +12,10 @@ def pm_parsing(pm):
     id_telegram = pm.get('id_telegram')
     name = pm.get('name')
     if not id_telegram or not name:
-        continue
+        return
 
-    time_from = strptime(pm.get('time_from'), "%H:%M").time()
-    time_to = strptime(pm.get('time_to'), "%H:%M").time()
+    time_from = datetime.strptime(pm.get('time_from'), "%H:%M").time()
+    time_to = datetime.strptime(pm.get('time_to'), "%H:%M").time()
     is_active = True if time_from and time_to else False
 
     ProjectManager.objects.update_or_create(
@@ -34,7 +34,8 @@ def student_parsing(student):
     name = student.get('name')
     level_id = student.get('level_id')
     if not id_telegram or not name or not level_id:
-        continue
+        return
+
     try:
         level = get_object_or_404(StudyLevel, id=int(level_id))
         Student.objects.update_or_create(
@@ -46,7 +47,7 @@ def student_parsing(student):
             }
         )
     except Http404:
-        continue
+        return
     
 
 
@@ -54,13 +55,15 @@ def student_parsing(student):
 def parse_project_files(sender, instance, **kwargs):
     print("parse_project_files запустился")
     if instance.pm_file:
-        with open(instance.pm_file.path, 'r') as file:
+        file_path = instance.pm_file.path
+        with open(file_path, 'r', encoding='utf-8') as file:
             pms = json.load(file)
             for pm in pms:
                 pm_parsing(pm)
 
         if instance.students_file:
-            with open(instance.students_file.path, 'r') as file:
+            file_path = instance.students_file.path
+            with open(file_path, 'r', encoding='utf-8') as file:
                 students = json.load(file)
                 for student in students:
                     student_parsing(student)
